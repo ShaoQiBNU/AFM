@@ -12,7 +12,7 @@
 
 ## 模型
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/1.jpg)
 
 > AFM模型结构如图所示，Sparse Input和Embedding Layer与FM一样，Embedding Layer把输入特征中非零部分特征embed成一个dense vector。剩下的三层为重点，如下：
 
@@ -20,7 +20,7 @@ img
 
 > 受FM模型用内积来建模特征间交互的启发，论文提出了Pair-wise Interaction Layer。将输入的m个向量通过element-wise product操作扩展到m(m-1)/2个组合向量。如下：
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/2.jpg)
 
 > 其中，<a href="https://www.codecogs.com/eqnedit.php?latex=\odot" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\odot" title="\odot" /></a>定义了两个向量的elemet-wise product操作。
 >
@@ -30,7 +30,7 @@ img
 >
 > 首先，用求和池化（sum pooling）来压缩<a href="https://www.codecogs.com/eqnedit.php?latex=f_{PI}(\varepsilon)" target="_blank"><img src="https://latex.codecogs.com/svg.latex?f_{PI}(\varepsilon)" title="f_{PI}(\varepsilon)" /></a>，然后使用全连接层来将压缩结果映射到预估分数：
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/3.jpg)
 
 > 其中，<a href="https://www.codecogs.com/eqnedit.php?latex=p\in&space;R^{k}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?p\in&space;R^{k}" title="p\in R^{k}" /></a>和<a href="https://www.codecogs.com/eqnedit.php?latex=b\in&space;R" target="_blank"><img src="https://latex.codecogs.com/svg.latex?b\in&space;R" title="b\in R" /></a>表示预估层的权重和偏差。假设将<a href="https://www.codecogs.com/eqnedit.php?latex=p" target="_blank"><img src="https://latex.codecogs.com/svg.latex?p" title="p" /></a>设置为1，<a href="https://www.codecogs.com/eqnedit.php?latex=b" target="_blank"><img src="https://latex.codecogs.com/svg.latex?b" title="b" /></a>设置为0，就是FM模型。
 
@@ -38,7 +38,7 @@ img
 
 > Attention机制广泛应用在神经网络建模中，主要思想是在压缩不同部分到一个single representation时，允许不同部分贡献不同，论文通过在组合特征向量上做加权求和从而实现attention机制，如下：
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/4.jpg)
 
 > 其中，<a href="https://www.codecogs.com/eqnedit.php?latex=a_{ij}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?a_{ij}" title="a_{ij}" /></a>是特征组合权重<a href="https://www.codecogs.com/eqnedit.php?latex=w_{ij}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?w_{ij}" title="w_{ij}" /></a>的attention score，表示不同的特征组合对于最终预测的贡献程度。可以看到：
 >
@@ -50,13 +50,13 @@ img
 >
 > Attention network的输入是两个特征的组合向量(在嵌入空间中编码了他们的组合信息)，定义如下：
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/5.jpg)
 
 > 可以看到，Attention Network实际上是一个one layer MLP，激活函数使用ReLU，它的输入是两个嵌入向量element-wise product之后的结果(interacted vector，用来在嵌入空间中对组合特征进行编码)；它的输出是组合特征对应的Attention Score。最后，通过softmax函数来归一化attention分数。
 
 > Attention-based Pooling Layer的输出是一个k维向量，它通过区分不同特征组合的重要性，在嵌入空间中压缩所有特征组合。最后project到预测分数。AFM模型的形式如下所示：
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/6.jpg)
 
 ### Overfitting Prevention
 
@@ -66,7 +66,7 @@ img
 >
 > 2）对于Attention network（one layer MLP），对权重矩阵W使用L2正则化防止过拟合；最终的目标函数，如下所示：
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/7.jpg)
 
 ## 实验
 
@@ -84,29 +84,29 @@ img
 
 > 将dropout ratio设置为合适的值，FM和AFM的效果均有提升，其中AFM在Frappe、MovieLens两个数据集上的最佳dropout ratio分别是0.2、0.5。
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/8.jpg)
 
 #### L2正则化
 
 > L2正则化系数大于0时，AFM模型的效果是提升的，同时也说明仅在Pair-wise Interaction Layer使用dropout无法完全避免AFM过拟合。
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/9.jpg)
 
 ### 2) Impact of the Attention Network(RQ2)
 
 > 下图说明了不同的attention factors对于AFM效果的影响，从图中可以看出，在不同的attention factors下，AFM的表现相对平稳。
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/10.jpg)
 
 > 论文比较了AFM和FM每轮迭代的训练集误差和测试集误差，AFM比FM要收敛的更快。在Frappe上，AFM的训练集误差和测试集误差都要小于FM；在MovieLens上，AFM的训练误差要稍微高于FM，但测试误差要低于FM。
 
-img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/111.jpg)
 
 ### 3) Performance Comparison(RQ3)
 
 > 本节对比了不同模型在测试集上的效果，表2总结了embedding为256条件下的各模型的最好效果，如下所示。
 
-Img
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/12.jpg)
 
 > 根据表2可以看到：
 >
