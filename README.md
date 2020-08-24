@@ -46,7 +46,7 @@
 >
 > 2）Attention-based Pooling Layer的输出是一个k维向量。它对Interacted vector使用Attention Score进行了weighted sum pooling（加权求和池化）操作。
 
-> **Attention score的学习是一个问题，**常规做法就是通过最小化loss来学习，但是存在一个问题：对于训练数据中没有共现过的特征们，它们组合的attention分数无法估计。因此论文进一步提出attention network，用多层感知器MLP来参数化attention分数。
+> **Attention score的学习是一个问题**，常规做法就是通过最小化loss来学习，但是存在一个问题：对于训练数据中没有共现过的特征们，它们组合的attention分数无法估计。因此论文进一步提出attention network，用多层感知器MLP来参数化attention分数。
 >
 > Attention network的输入是两个特征的组合向量(在嵌入空间中编码了他们的组合信息)，定义如下：
 
