@@ -100,7 +100,7 @@
 
 > 论文比较了AFM和FM每轮迭代的训练集误差和测试集误差，AFM比FM要收敛的更快。在Frappe上，AFM的训练集误差和测试集误差都要小于FM；在MovieLens上，AFM的训练误差要稍微高于FM，但测试误差要低于FM。
 
-![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/111.jpg)
+![image](https://github.com/ShaoQiBNU/AFM/blob/master/img/11.jpg)
 
 ### 3) Performance Comparison(RQ3)
 
